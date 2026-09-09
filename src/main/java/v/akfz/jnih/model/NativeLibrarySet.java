@@ -4,8 +4,7 @@ import org.gradle.api.file.ConfigurableFileCollection;
 import org.gradle.api.model.ObjectFactory;
 import javax.inject.Inject;
 
-public abstract class NativeLibrarySet {
-
+public class NativeLibrarySet {
 	private final ConfigurableFileCollection libraries;
 
 	@Inject
@@ -15,9 +14,5 @@ public abstract class NativeLibrarySet {
 
 	public ConfigurableFileCollection getLibraries() {
 		return libraries;
-	}
-
-	public boolean isEmpty() {
-		return libraries.isEmpty();
 	}
 }

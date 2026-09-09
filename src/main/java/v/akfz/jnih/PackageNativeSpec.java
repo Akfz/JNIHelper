@@ -1,9 +1,9 @@
 package v.akfz.jnih;
 
 import v.akfz.jnih.model.NativeLibrarySet;
+import org.gradle.api.Action;
 
 public class PackageNativeSpec {
-
 	private final NativeLibrarySet jar;
 	private final NativeLibrarySet run;
 
@@ -12,11 +12,19 @@ public class PackageNativeSpec {
 		this.run = run;
 	}
 
-	public void jar(org.gradle.api.Action<NativeLibrarySet> action) {
+	public NativeLibrarySet getJar() {
+		return jar;
+	}
+
+	public NativeLibrarySet getRun() {
+		return run;
+	}
+
+	public void jar(Action<? super NativeLibrarySet> action) {
 		action.execute(jar);
 	}
 
-	public void run(org.gradle.api.Action<NativeLibrarySet> action) {
+	public void run(Action<? super NativeLibrarySet> action) {
 		action.execute(run);
 	}
 }

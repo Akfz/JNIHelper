@@ -18,10 +18,16 @@ java {
 gradlePlugin {
     plugins {
         jniHelperPlugin {
-            id = 'v.akfz.jinh'
+            id = 'v.akfz.jnih'
             implementationClass = 'v.akfz.jnih.JniHelperPlugin'
             displayName = 'JNI Helper Plugin'
             description = 'Little helper for Java Native Interface'
         }
+    }
+}
+
+publishing {
+    repositories {
+        mavenLocal()
     }
 }

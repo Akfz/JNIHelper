@@ -42,7 +42,7 @@ public abstract class GenerateJniHeadersTask extends DefaultTask {
 		command.add("-h");
 		command.add(outputDir.getAbsolutePath());
 		command.add("-d");
-		command.add(getProject().getBuildDir() + "/tmp/jni-classes");
+		command.add(getProject().getLayout().getBuildDirectory().dir("tmp/jni-classes").get().getAsFile().getAbsolutePath());
 
 		for (File f : inputFiles) {
 			command.add(f.getAbsolutePath());
