@@ -9,11 +9,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated(forRemoval = true)
 public abstract class GenerateJniHeadersTask extends DefaultTask {
 
 	@InputFiles
-	@Optional
-	public abstract ConfigurableFileCollection getClasspath();
+	public abstract ConfigurableFileCollection getSources();
 
 	@OutputDirectory
 	public abstract DirectoryProperty getOutputDir();
@@ -23,61 +23,46 @@ public abstract class GenerateJniHeadersTask extends DefaultTask {
 		File outputDir = getOutputDir().getAsFile().get();
 		outputDir.mkdirs();
 
-		List<File> inputFiles = new ArrayList<>();
-		for (File file : getClasspath()) {
-			if (file.isDirectory()) {
-				collectClassFiles(file, inputFiles);
-			} else if (file.getName().endsWith(".class")) {
-				inputFiles.add(file);
-			}
-		}
-
-		if (inputFiles.isEmpty()) {
-			getLogger().warn("Classes for JNI header generation not found");
-			return;
-		}
-
 		List<String> command = new ArrayList<>();
 		command.add("javac");
 		command.add("-h");
 		command.add(outputDir.getAbsolutePath());
-		command.add("-d");
-		command.add(getProject().getLayout().getBuildDirectory().dir("tmp/jni-classes").get().getAsFile().getAbsolutePath());
 
-		for (File f : inputFiles) {
-			command.add(f.getAbsolutePath());
+		command.add("-d");
+		command.add(
+				getProject()
+						.getLayout()
+						.getBuildDirectory()
+						.dir("tmp/jni-classes")
+						.get()
+						.getAsFile()
+						.getAbsolutePath()
+		);
+
+		for (File source : getSources()) {
+			command.add(source.getAbsolutePath());
 		}
 
-		getLogger().lifecycle("Generating JNI headers...");
-
 		try {
-			ProcessBuilder pb = new ProcessBuilder(command);
-			pb.redirectErrorStream(true);
-			Process process = pb.start();
+			Process process = new ProcessBuilder(command)
+					.redirectErrorStream(true)
+					.start();
 
 			String output = new String(process.getInputStream().readAllBytes());
 			int exitCode = process.waitFor();
 
-			if (exitCode == 0) {
-				getLogger().lifecycle("Headers generated in: " + outputDir);
-			} else {
-				getLogger().error("Generation error:\n" + output);
+			if (exitCode != 0) {
+				throw new RuntimeException(
+						"JNI header generation failed:\n" + output
+				);
 			}
+
+			getLogger().lifecycle(
+					"JNI headers generated in: " + outputDir
+			);
+
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to execute javac", e);
-		}
-	}
-
-	private void collectClassFiles(File dir, List<File> result) {
-		File[] files = dir.listFiles();
-		if (files != null) {
-			for (File file : files) {
-				if (file.isDirectory()) {
-					collectClassFiles(file, result);
-				} else if (file.getName().endsWith(".class")) {
-					result.add(file);
-				}
-			}
 		}
 	}
 }
