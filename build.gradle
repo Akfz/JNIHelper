@@ -1,6 +1,6 @@
 plugins {
     id 'java-gradle-plugin'
-    id 'maven-publish'
+    id 'com.gradle.plugin-publish' version '2.1.1'
 }
 
 group = 'v.akfz'
@@ -16,18 +16,16 @@ java {
 }
 
 gradlePlugin {
+    website = 'https://github.com/Akfz/JniHelper'
+    vcsUrl = 'https://github.com/Akfz/JniHelper'
+
     plugins {
         jniHelperPlugin {
             id = 'v.akfz.jnih'
             implementationClass = 'v.akfz.jnih.JniHelperPlugin'
             displayName = 'JNI Helper Plugin'
             description = 'Little helper for Java Native Interface'
+            tags.set(['jni', 'native', 'java'])
         }
-    }
-}
-
-publishing {
-    repositories {
-        mavenLocal()
     }
 }
