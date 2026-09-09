@@ -1,0 +1,27 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+}
+
+group = 'v.akfz'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+gradlePlugin {
+    plugins {
+        jniHelperPlugin {
+            id = 'v.akfz.jinh'
+            implementationClass = 'v.akfz.jnih.JniHelperPlugin'
+            displayName = 'JNI Helper Plugin'
+            description = 'Little helper for Java Native Interface'
+        }
+    }
+}
