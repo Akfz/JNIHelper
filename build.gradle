@@ -3,7 +3,7 @@ plugins {
     id 'com.gradle.plugin-publish' version '2.1.1'
 }
 
-group = 'v.akfz'
+group = 'io.github.Akfz'
 version = '1.0.0'
 
 repositories {
@@ -21,7 +21,7 @@ gradlePlugin {
 
     plugins {
         jniHelperPlugin {
-            id = 'v.akfz.jnih'
+            id = 'io.github.Akfz.jnih'
             implementationClass = 'v.akfz.jnih.JniHelperPlugin'
             displayName = 'JNI Helper Plugin'
             description = 'Little helper for Java Native Interface'
