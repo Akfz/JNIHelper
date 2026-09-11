@@ -15,7 +15,7 @@ Gradle plugin for working with Java JNI libraries.
 ```groovy
 plugins {
     id 'java'
-    id 'io.github.Akfz.jnih' version '0.0.1'
+    id 'io.github.Akfz.jnih' version '1.0.0'
 }
 ```
 Use any published version of the plugin.
@@ -129,7 +129,7 @@ Minimal `build.gradle`:
 ```groovy
 plugins {
     id 'java'
-    id 'io.github.Akfz.jnih' version '0.0.1'
+    id 'io.github.Akfz.jnih' version '1.0.0'
 }
 
 repositories {
